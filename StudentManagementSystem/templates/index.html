@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Cloud-Based Student Management System{% endblock %}
+
+{% block content %}
+<!-- Hero Banner -->
+<section class="hero-section">
+    <h1 class="hero-title">Cloud-Based Student Management System</h1>
+    <p class="hero-subtitle">
+        A modern web portal built for students to track course progress, manage profiles, and submit assignments directly to Azure Cloud storage.
+    </p>
+    <div class="hero-buttons">
+        {% if session.get('role') == 'student' %}
+            <a href="{{ url_for('student.dashboard') }}" class="btn btn-primary">Go to Student Dashboard</a>
+        {% elif session.get('role') == 'admin' %}
+            <a href="{{ url_for('admin.dashboard') }}" class="btn btn-primary">Go to Admin Dashboard</a>
+        {% else %}
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Register as Student</a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-outline">Student Login</a>
+            <a href="{{ url_for('auth.admin_login') }}" class="btn btn-secondary">Admin Login</a>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Features Grid -->
+<h2 style="text-align: center; color: var(--primary-dark); font-size: 1.8rem; margin-top: 1rem;">System Features</h2>
+
+<div class="features-grid">
+    <div class="feature-card">
+        <div class="feature-icon">👤</div>
+        <h3>Student Registration</h3>
+        <p>Students can easily register an account with department, academic year, and course details.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Progress Tracking</h3>
+        <p>Interactive dashboard displaying academic course enrollment percentage and completion tracking.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">☁️</div>
+        <h3>Cloud File Storage</h3>
+        <p>Upload assignment files directly into Azure Blob Storage with instant local storage fallback.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">📚</div>
+        <h3>Course Enrollment</h3>
+        <p>Browse available curriculum courses and enroll with one click to expand your learning track.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Admin Management</h3>
+        <p>Dedicated administration portal to view student records, manage accounts, and audit uploads.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">🔐</div>
+        <h3>Role-Based Access</h3>
+        <p>Secure Flask session management enforcing strict Student and Administrator permission boundaries.</p>
+    </div>
+</div>
+{% endblock %}

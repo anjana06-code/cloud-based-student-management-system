@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}All Uploads - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="panel-card">
+    <div class="panel-header">
+        <div>
+            <h2>Uploaded Assignment Files</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Audit, download, or remove assignment files uploaded by students.</p>
+        </div>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary btn-sm">Back to Dashboard</a>
+    </div>
+
+    <div class="table-responsive" style="margin-top: 1rem;">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Upload ID</th>
+                    <th>Student Name</th>
+                    <th>Student Email</th>
+                    <th>Filename</th>
+                    <th>Upload Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for upload in uploads %}
+                    <tr>
+                        <td><strong>#{{ upload['id'] }}</strong></td>
+                        <td>{{ upload['student_name'] }}</td>
+                        <td>{{ upload['student_email'] }}</td>
+                        <td><code>{{ upload['filename'] }}</code></td>
+                        <td><small>{{ upload['upload_date'][:19] }}</small></td>
+                        <td>
+                            <div class="table-actions">
+                                <a href="{{ url_for('student.download', upload_id=upload['id']) }}" class="btn btn-outline btn-sm">
+                                    Download
+                                </a>
+                                <form action="{{ url_for('admin.delete_upload', upload_id=upload['id']) }}" method="POST" class="form-delete-confirm" data-confirm-message="Are you sure you want to delete file {{ upload['filename'] }}?">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 2rem;">No uploaded files found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

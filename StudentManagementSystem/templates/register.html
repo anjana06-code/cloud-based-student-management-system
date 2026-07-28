@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Student Registration - Student Management System{% endblock %}
+
+{% block content %}
+<div class="form-card" style="max-width: 550px;">
+    <div class="form-card-header">
+        <h2>Create Student Account</h2>
+        <p>Fill in your academic information to register</p>
+    </div>
+
+    <form action="{{ url_for('auth.register') }}" method="POST" onsubmit="return validateRegisterForm()">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="e.g. Alex Johnson" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="e.g. alex@example.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="department">Department</label>
+            <select id="department" name="department" class="form-control">
+                <option value="Computer Science">Computer Science & Engineering</option>
+                <option value="Information Technology">Information Technology</option>
+                <option value="Electrical Engineering">Electrical Engineering</option>
+                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                <option value="Civil Engineering">Civil Engineering</option>
+            </select>
+        </div>
+
+        <div class="form-group" style="display: flex; gap: 1rem;">
+            <div style="flex: 1;">
+                <label for="year">Academic Year</label>
+                <select id="year" name="year" class="form-control">
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                </select>
+            </div>
+            <div style="flex: 2;">
+                <label for="course">Degree / Course</label>
+                <input type="text" id="course" name="course" class="form-control" value="B.Tech Computer Science" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Minimum 6 characters" required>
+        </div>
+
+        <div class="form-group">
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Repeat password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Complete Registration</button>
+    </form>
+
+    <div class="form-footer">
+        <p>Already registered? <a href="{{ url_for('auth.login') }}">Log In Here</a></p>
+    </div>
+</div>
+{% endblock %}

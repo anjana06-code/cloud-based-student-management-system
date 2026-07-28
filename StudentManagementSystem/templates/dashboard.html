@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - Student Management System{% endblock %}
+
+{% block content %}
+<!-- Welcome Header Banner -->
+<div class="dashboard-header">
+    <div class="dashboard-user">
+        <h1>Welcome, {{ student['name'] }}! 👋</h1>
+        <p>{{ student['department'] }} | Year {{ student['year'] }} | {{ student['course'] }}</p>
+    </div>
+    <div class="dashboard-badge">
+        Student ID #{{ student['id'] }}
+    </div>
+</div>
+
+<!-- Metrics Cards Grid -->
+<div class="metrics-grid">
+    <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <div class="stat-info">
+            <h3>{{ enrolled_courses|length }}</h3>
+            <p>Enrolled Courses</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-info">
+            <h3>{{ total_courses_count }}</h3>
+            <p>Available Courses</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">📄</div>
+        <div class="stat-info">
+            <h3>{{ uploads|length }}</h3>
+            <p>Uploaded Assignments</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-info">
+            <h3>{{ student['progress'] }}%</h3>
+            <p>Curriculum Completion</p>
+        </div>
+    </div>
+</div>
+
+<!-- Progress Bar Tracking Card -->
+<div class="progress-card">
+    <div class="progress-header">
+        <h3>Academic Progress Track</h3>
+        <span class="progress-percentage">{{ student['progress'] }}% Complete</span>
+    </div>
+    <div class="progress-bar-container">
+        <div class="progress-bar-fill" style="width: {{ student['progress'] }}%;"></div>
+    </div>
+</div>
+
+<!-- Dashboard Grid (Courses & Quick Links) -->
+<div class="dashboard-grid">
+    <!-- Enrolled Courses Panel -->
+    <div class="panel-card">
+        <div class="panel-header">
+            <h3>My Enrolled Courses</h3>
+            <a href="{{ url_for('student.courses') }}" class="btn btn-outline btn-sm">Explore Courses</a>
+        </div>
+
+        {% if enrolled_courses %}
+            <div class="courses-grid">
+                {% for course in enrolled_courses %}
+                    <div class="course-card">
+                        <div>
+                            <h4>{{ course['course_name'] }}</h4>
+                            <p>{{ course['course_description'] }}</p>
+                        </div>
+                        <div>
+                            <span class="badge-enrolled">Active Enrollment</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="color: var(--text-muted); text-align: center; padding: 2rem 0;">
+                You have not enrolled in any courses yet. <a href="{{ url_for('student.courses') }}">Click here to browse courses</a>.
+            </p>
+        {% endif %}
+    </div>
+
+    <!-- Quick Actions Side Panel -->
+    <div class="panel-card">
+        <div class="panel-header">
+            <h3>Quick Actions</h3>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <a href="{{ url_for('student.upload') }}" class="btn btn-primary btn-block">
+                📤 Upload Assignment File
+            </a>
+            <a href="{{ url_for('student.courses') }}" class="btn btn-outline btn-block">
+                📖 Browse Course Catalog
+            </a>
+            <a href="{{ url_for('student.profile') }}" class="btn btn-secondary btn-block">
+                ✏️ Update Profile Details
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

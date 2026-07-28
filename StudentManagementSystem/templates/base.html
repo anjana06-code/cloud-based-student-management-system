@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Management System{% endblock %}</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <a href="{{ url_for('index') }}" class="navbar-brand">
+            🎓 Student<span>Cloud</span>
+        </a>
+        <ul class="nav-menu">
+            <li><a href="{{ url_for('index') }}" class="nav-link">Home</a></li>
+            
+            {% if session.get('role') == 'student' %}
+                <li><a href="{{ url_for('student.dashboard') }}" class="nav-link">Dashboard</a></li>
+                <li><a href="{{ url_for('student.courses') }}" class="nav-link">Courses</a></li>
+                <li><a href="{{ url_for('student.upload') }}" class="nav-link">Upload File</a></li>
+                <li><a href="{{ url_for('student.profile') }}" class="nav-link">My Profile</a></li>
+                <li><a href="{{ url_for('auth.logout') }}" class="nav-link nav-btn nav-btn-outline">Logout ({{ session.get('user_name') }})</a></li>
+            
+            {% elif session.get('role') == 'admin' %}
+                <li><a href="{{ url_for('admin.dashboard') }}" class="nav-link">Admin Dashboard</a></li>
+                <li><a href="{{ url_for('admin.students') }}" class="nav-link">Students List</a></li>
+                <li><a href="{{ url_for('admin.uploads') }}" class="nav-link">Uploaded Files</a></li>
+                <li><a href="{{ url_for('auth.logout') }}" class="nav-link nav-btn nav-btn-outline">Admin Logout</a></li>
+            
+            {% else %}
+                <li><a href="{{ url_for('auth.login') }}" class="nav-link">Student Login</a></li>
+                <li><a href="{{ url_for('auth.register') }}" class="nav-link nav-btn">Student Register</a></li>
+                <li><a href="{{ url_for('auth.admin_login') }}" class="nav-link">Admin Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- Flash Message Alerts -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert-container">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            <span>{{ message }}</span>
+                            <button class="alert-close">&times;</button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Content Block -->
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Cloud-Based Student Management System. Internship Academic Project.</p>
+            <div class="footer-links">
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('auth.login') }}">Student Login</a>
+                <a href="{{ url_for('auth.admin_login') }}">Admin Login</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/validation.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

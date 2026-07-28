@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Student Management System{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <div class="admin-title">
+        <h1>Administrator Control Center</h1>
+        <p>System Overview, Student Management, and File Storage Audit</p>
+    </div>
+    <div>
+        <a href="{{ url_for('admin.students') }}" class="btn btn-primary btn-sm">Manage Students</a>
+        <a href="{{ url_for('admin.uploads') }}" class="btn btn-outline btn-sm" style="color: #ffffff; border-color: #ffffff;">View Uploads</a>
+    </div>
+</div>
+
+<!-- Admin Stat Metrics -->
+<div class="metrics-grid">
+    <div class="stat-card">
+        <div class="stat-icon" style="background-color: #e0f2fe; color: #0284c7;">👥</div>
+        <div class="stat-info">
+            <h3>{{ total_students }}</h3>
+            <p>Total Registered Students</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon" style="background-color: #f3e8ff; color: #9333ea;">📂</div>
+        <div class="stat-info">
+            <h3>{{ total_uploads }}</h3>
+            <p>Total Cloud Uploads</p>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon" style="background-color: #dcfce7; color: #16a34a;">📚</div>
+        <div class="stat-info">
+            <h3>{{ total_courses }}</h3>
+            <p>Curriculum Courses</p>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Recent Overview Tables -->
+<div class="dashboard-grid">
+    <!-- Recent Registered Students -->
+    <div class="panel-card">
+        <div class="panel-header">
+            <h3>Recently Registered Students</h3>
+            <a href="{{ url_for('admin.students') }}" class="btn btn-outline btn-sm">View All</a>
+        </div>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Dept</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in recent_students %}
+                        <tr>
+                            <td>#{{ student['id'] }}</td>
+                            <td><strong>{{ student['name'] }}</strong></td>
+                            <td>{{ student['email'] }}</td>
+                            <td><span class="badge-dept">{{ student['department'] }}</span></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" style="text-align: center;">No students registered yet.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Recent Uploads -->
+    <div class="panel-card">
+        <div class="panel-header">
+            <h3>Recent Submissions</h3>
+            <a href="{{ url_for('admin.uploads') }}" class="btn btn-outline btn-sm">View All</a>
+        </div>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Filename</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for upload in recent_uploads %}
+                        <tr>
+                            <td>{{ upload['student_name'] }}</td>
+                            <td><small>{{ upload['filename'] }}</small></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="2" style="text-align: center;">No uploaded files yet.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

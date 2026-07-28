@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Student Login - Student Management System{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <div class="form-card-header">
+        <h2>Student Login</h2>
+        <p>Enter your credentials to access your student portal</p>
+    </div>
+
+    <form action="{{ url_for('auth.login') }}" method="POST">
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="e.g. student@example.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Log In</button>
+    </form>
+
+    <div class="form-footer">
+        <p>Don't have an account? <a href="{{ url_for('auth.register') }}">Register Here</a></p>
+        <p style="margin-top: 0.5rem;"><a href="#forgotPasswordModal" onclick="toggleForgotPassword()">Forgot Password?</a></p>
+    </div>
+</div>
+
+<!-- Simple Collapsible Forgot Password Section -->
+<div id="forgotPasswordSection" class="form-card" style="display: none; margin-top: 1.5rem; border-color: #93c5fd;">
+    <div class="form-card-header">
+        <h3 style="font-size: 1.25rem;">Reset Your Password</h3>
+        <p>Enter your registered email and choose a new password</p>
+    </div>
+    <form action="{{ url_for('auth.forgot_password') }}" method="POST">
+        <div class="form-group">
+            <label for="reset_email">Registered Email</label>
+            <input type="email" id="reset_email" name="email" class="form-control" placeholder="student@example.com" required>
+        </div>
+        <div class="form-group">
+            <label for="new_password">New Password</label>
+            <input type="password" id="new_password" name="new_password" class="form-control" placeholder="••••••••" required>
+        </div>
+        <div class="form-group">
+            <label for="confirm_password">Confirm New Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Update Password</button>
+    </form>
+</div>
+
+<script>
+function toggleForgotPassword() {
+    var section = document.getElementById('forgotPasswordSection');
+    if (section.style.display === 'none' || section.style.display === '') {
+        section.style.display = 'block';
+    } else {
+        section.style.display = 'none';
+    }
+}
+</script>
+{% endblock %}

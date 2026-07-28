@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Course Catalog - Student Management System{% endblock %}
+
+{% block content %}
+<div class="panel-card" style="margin-bottom: 2rem;">
+    <div class="panel-header">
+        <div>
+            <h2>Academic Course Catalog</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Enroll in courses to build your skills and track your degree progress.</p>
+        </div>
+        <a href="{{ url_for('student.dashboard') }}" class="btn btn-secondary btn-sm">Back to Dashboard</a>
+    </div>
+
+    <div class="features-grid" style="margin-top: 1.5rem;">
+        {% for course in courses %}
+            <div class="feature-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <div class="feature-icon">📖</div>
+                    <h3>{{ course['course_name'] }}</h3>
+                    <p style="margin-bottom: 1.5rem;">{{ course['course_description'] }}</p>
+                </div>
+                
+                <div>
+                    {% if course['id'] in enrolled_ids %}
+                        <button class="btn btn-secondary btn-block" disabled style="opacity: 0.8; cursor: default;">
+                            ✓ Enrolled
+                        </button>
+                    {% else %}
+                        <form action="{{ url_for('student.enroll', course_id=course['id']) }}" method="POST">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                Enroll Now
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

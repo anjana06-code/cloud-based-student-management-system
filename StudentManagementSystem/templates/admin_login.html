@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Login - Student Management System{% endblock %}
+
+{% block content %}
+<div class="form-card" style="border-top: 4px solid var(--primary-dark);">
+    <div class="form-card-header">
+        <h2>Administrator Portal Login</h2>
+        <p>Restricted access for system administrators</p>
+    </div>
+
+    <form action="{{ url_for('auth.admin_login') }}" method="POST">
+        <div class="form-group">
+            <label for="username">Admin Username</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="e.g. admin" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Admin Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn-secondary btn-block" style="background-color: var(--primary-dark);">
+            🛡️ Admin Login
+        </button>
+    </form>
+
+    <div class="form-footer">
+        <p>Default credentials: <strong>admin</strong> / <strong>admin123</strong></p>
+    </div>
+</div>
+{% endblock %}
